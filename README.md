@@ -1,1 +1,0 @@
-# spatiora-ai-designer
