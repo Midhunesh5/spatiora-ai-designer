@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spatiora AI - Transform Your Space with AI</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#8B5CF6',    // violet-500
+            secondary: '#7C3AED',  // violet-600
+            accent: '#A78BFA',     // violet-400
+            neutral: '#FFFFFF',     // white
+            'neutral-light': '#F3F4F6', // gray-100
+            'neutral-dark': '#0d0d0d',  // almost black
+            'border-color': '#DDD6FE' // violet-200
+          }
+        }
+      }
+    }
+  </script>
+  <style id="app-style">
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background-color: #0d0d0d; /* almost black */
+      color: #F3F4F6; /* text-neutral-light */
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Space Grotesk', sans-serif;
+      color: #F3F4F6; /* text-neutral-light */
+    }
+
+    .hero-dark-gradient {
+      position: relative;
+      background-color: #0d0d0d; /* almost black */
+      overflow: hidden;
+    }
+
+    .hero-dark-gradient::after {
+      content: '';
+      position: absolute;
+      top: -25%;
+      right: -40%;
+      width: 100%;
+      height: 150%;
+      background: radial-gradient(circle, rgba(219, 39, 119, 0.2) 0%, rgba(219, 39, 119, 0) 70%); /* Pink/Magenta Glow */
+      animation: glow-pulse 12s infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes glow-pulse {
+      0% { transform: scale(0.95) translate(10px, -10px); opacity: 0.3; }
+      100% { transform: scale(1.05) translate(-10px, 10px); opacity: 0.5; }
+    }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 0.5rem;
+      border: 1px solid #E5E7EB; /* gray-200 */
+    }
+
+    .image-overlay {
+      position: absolute;
+      bottom: -100%;
+      left: 0;
+      right: 0;
+      background-color: rgba(51, 51, 51, 0.7);
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .image-card:hover .image-overlay {
+      bottom: 0;
+    }
+
+    .horizontal-scroll {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .horizontal-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .horizontal-scroll::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .horizontal-scroll::-webkit-scroller-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    .scroll-item {
+      scroll-snap-align: start;
+      flex-shrink: 0;
+    }
+
+    .style-card.active {
+      border: 2px solid #8B5CF6; /* primary */
+      transform: translateY(-5px);
+    }
+
+    .loading-spinner {
+      animation: spin 1.5s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; }
+      100% { opacity: 0.5; }
+    }
+
+    .btn {
+      transition: all 0.2s ease;
+      border-radius: 9999px; /* rounded-full */
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn-violet-outline {
+      border: 1px solid #8B5CF6; /* primary */
+      color: #A78BFA; /* accent */
+      background-color: transparent;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.25rem;
+      display: inline-block;
+    }
+
+    .btn-violet-outline:hover {
+      background-color: rgba(139, 92, 246, 0.1);
+      color: #C4B5FD; /* violet-300 */
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      opacity: 0; /* Start hidden */
+      animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .animation-delay-200 { animation-delay: 0.2s; }
+    .animation-delay-400 { animation-delay: 0.4s; }
+    .animation-delay-600 { animation-delay: 0.6s; }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    }
+
+    .reveal-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+  </style>
+</head>
+<body class="bg-neutral-light">
+  <div id="root"></div>
+
+  <script type="text/babel" id="app-script">
+    // Define React components
+    const { useState, useEffect } = React;
+
+    const API_BASE_URL = 'http://127.0.0.1:5000'; // Backend server URL
+
+    const generateInteriorDesign = async (prompt, style, tool_type = 'interior') => {
+      // This function will now handle the streaming response
+      return fetch(`${API_BASE_URL}/generate-interior-design-stream`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, style, tool_type }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({ error: response.statusText }));
+        throw new Error(errorData.error || 'An unknown network error occurred.');      }
+      return response;
+    };
+    const galleryImages = [
+      { id: 1, url: 'https://images.unsplash.com/photo-1581092580423-9c278382c245?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max', title: 'Detailed Blueprint' },
+      { id: 1, url: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max', title: 'Bright Modern Living Room' },
+      { id: 3, url: 'https://images.unsplash.com/photo-1600585152225-358EA60c75AF?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max', title: 'Modern House Exterior' },
+      { id: 4, url: 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max', title: 'Cozy Scandinavian Living' },
+      { id: 5, url: 'https://images.unsplash.com/photo-1505691938895-1758d7feb511?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max', title: 'Cozy Bedroom Layout' },
+      { id: 6, url: 'https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max', title: 'Sleek Modern Kitchen' }
+    ];
+
+    // Header Component
+    const Header = ({ onNavigate }) => {
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      
+      return (
+        <header className="bg-neutral-dark shadow-lg fixed w-full z-50 border-b border-gray-700">
+          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div className="flex items-center">
+              <a href="#" onClick={() => onNavigate('landing')} className="text-2xl font-bold text-primary hover:text-accent transition-colors flex items-center">
+                <i className="fas fa-cube mr-2"></i><span>Spatiora AI</span>
+              </a>
+            </div>
+            
+            <nav className="hidden md:flex">
+              <ul className="flex space-x-6 items-center">
+                <li><a href="#" onClick={() => onNavigate('landing')} className="text-neutral-light hover:text-primary transition-colors">Home</a></li>
+                <li><a href="#" onClick={() => onNavigate('tool-selection')} className="text-neutral-light hover:text-primary transition-colors">Tools</a></li>
+                <li><a href="#" className="text-neutral-light hover:text-primary transition-colors">About</a></li>
+                <li><a href="#" className="text-neutral-light hover:text-primary transition-colors">Contact</a></li>
+                <li><a href="#" className="btn-violet-outline !py-2 !px-5 !rounded-full">Sign Up</a></li>
+              </ul>
+            </nav>
+            
+            <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+              <i className={`fas ${mobileMenuOpen ? 'fa-times' : 'fa-bars'} text-neutral-light text-xl`}></i>
+            </button>
+          </div>
+          
+          {mobileMenuOpen && (
+            <div className="md:hidden bg-neutral-dark shadow-lg px-4 py-2 border-t border-gray-700">
+              <ul className="space-y-4 py-2">
+                <li><a href="#" onClick={() => { onNavigate('landing'); setMobileMenuOpen(false); }} className="block text-neutral-light hover:text-primary py-2">Home</a></li>
+                <li><a href="#" onClick={() => { onNavigate('tool-selection'); setMobileMenuOpen(false); }} className="block text-neutral-light hover:text-primary py-2">Tools</a></li>
+                <li><a href="#" className="block text-neutral-light hover:text-primary py-2">About</a></li>
+                <li><a href="#" className="block text-neutral-light hover:text-primary py-2">Contact</a></li>
+                <li><a href="#" className="block btn-violet-outline mt-4 py-2 text-center">Sign Up</a></li>
+              </ul>
+            </div>
+          )}
+        </header>
+      );
+    };
+
+    // Footer Component
+    const Footer = () => (
+      <footer className="bg-neutral-dark text-neutral-light pt-12 pb-6">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 reveal-on-scroll">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Spatiora AI</h3>
+              <p className="text-gray-300 mb-4">
+                Transforming spaces with AI-powered design tools. Create, visualize, and implement your dream space.
+              </p>
+              <div className="flex space-x-4">
+                <a href="#" className="text-gray-300 hover:text-neutral"><i className="fab fa-twitter"></i></a>
+                <a href="#" className="text-gray-300 hover:text-neutral"><i className="fab fa-facebook"></i></a>
+                <a href="#" className="text-gray-300 hover:text-neutral"><i className="fab fa-instagram"></i></a>
+                <a href="#" className="text-gray-300 hover:text-neutral"><i className="fab fa-linkedin"></i></a>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Home</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Tools</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">About</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Contact</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Pricing</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Privacy Policy</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Terms of Service</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">Cookie Policy</a></li>
+                <li><a href="#" className="text-gray-300 hover:text-neutral">GDPR</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
+              <p className="text-gray-300 mb-4">Subscribe to our newsletter for the latest updates and design inspiration.</p>
+              <form className="flex">
+                <label htmlFor="newsletter-email" className="sr-only">Email address</label>
+                <input id="newsletter-email" type="email" placeholder="Your email address" className="px-4 py-2 rounded-l-full focus:outline-none focus:ring-2 focus:ring-primary flex-1 text-neutral-dark" />
+                <button className="bg-primary text-white px-4 py-2 rounded-r-md hover:bg-secondary btn">Subscribe</button>
+              </form>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-700 mt-8 pt-6 text-center text-gray-300">
+            <p>&copy; 2025 Spatiora AI. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    );
+
+    // Prompt Input Component
+    const PromptInputComponent = ({ placeholder, value, onChange }) => (
+      <div className="mb-4">
+        <label className="block text-neutral-light font-medium mb-2">Your Description</label>
+        <textarea 
+          className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-gray-700 border-gray-600 text-neutral-light" 
+          rows="4" 
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        ></textarea>
+      </div>
+    );
+
+    // Style Selector Component
+    const StyleSelectorComponent = ({ styles, selectedStyle, onSelect }) => (
+      <div className="mb-4">
+        <label className="block text-neutral-light font-medium mb-2">Choose a Style</label>
+        <div className="horizontal-scroll pb-3" role="radiogroup">
+          {styles.map((style) => (
+            <div 
+              key={style.id} 
+              role="radio"
+              aria-checked={selectedStyle === style.id}
+              tabIndex="0"
+              className={`scroll-item style-card mr-3 p-3 bg-gray-800 border rounded-md cursor-pointer text-center card-hover ${selectedStyle === style.id ? 'active' : 'border-gray-700'} focus:outline-none focus:ring-2 focus:ring-primary`}
+              style={{ width: '150px' }}
+              onClick={() => onSelect(style.id)}
+              onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onSelect(style.id)}
+            >
+              <div className="bg-gray-700 h-16 mb-2 rounded flex items-center justify-center">
+                <i className={`fas ${style.icon} text-2xl text-gray-600`}></i>
+              </div>
+              <p className="font-medium text-neutral-light">{style.name}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+
+    // Generate Button Component
+    const GenerateButtonComponent = ({ onClick, loading, disabled }) => (
+      <button
+        className={`w-full px-4 py-3 rounded-full btn ${disabled ? 'bg-gray-400 cursor-not-allowed' : 'bg-primary hover:bg-secondary'} text-white font-medium flex items-center justify-center`}
+        onClick={onClick}
+        disabled={disabled || loading}
+      >
+        {loading ? (
+          <>
+            <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Generating...
+          </>
+        ) : (
+          <>
+            <i className="fas fa-magic mr-2"></i>
+            Generate
+          </>
+        )}
+      </button>
+    );
+
+    // Image Card Component
+    const ImageCardComponent = ({ image }) => {
+      const handleDownload = () => {
+        const link = document.createElement('a');
+        link.href = image.url;
+        link.download = `${image.title.replace(/\s+/g, '_') || 'generated-image'}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
+      return (
+        <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700 flex flex-col group">
+          <div className="relative">
+            <img src={image.url} alt={image.title} className="w-full h-56 object-cover" />
+            <div className="absolute top-2 right-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <button onClick={handleDownload} title="Download Image" className="bg-black bg-opacity-50 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-all">
+                <i className="fas fa-download"></i>
+              </button>
+              <button title="View Fullscreen" className="bg-black bg-opacity-50 text-white w-9 h-9 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-all">
+                <i className="fas fa-expand"></i>
+              </button>
+            </div>
+          </div>
+          <div className="p-4">
+            <h3 className="font-medium text-neutral-light truncate">{image.title}</h3>
+          </div>
+        </div>
+      );
+    };
+
+    // Results Display Component
+    const ResultsDisplayComponent = ({ loading, results, error }) => (
+      <div className="p-4 bg-gray-800 rounded-md min-h-[400px] border border-gray-700">
+        {loading && (!results || results.images.length === 0) ? (
+          <div className="flex flex-col items-center justify-center h-full min-h-[350px]">
+            <svg className="animate-spin h-12 w-12 text-primary mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p className="text-neutral-light text-lg">Generating amazing designs...</p>
+            <p className="text-gray-400 text-sm mt-2">This may take a moment</p>
+          </div>
+        ) : error ? (
+          <div className="flex flex-col items-center justify-center h-full min-h-[350px] text-red-500">
+            <i className="fas fa-exclamation-triangle text-4xl mb-4"></i>
+            <p className="font-medium text-lg">An error occurred</p>
+            <p className="text-sm mt-2 text-gray-400">{error}</p>
+          </div>
+        ) : results?.images?.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {results.images.map((image) => (
+              <ImageCardComponent key={image.id} image={image} />
+            ))}
+            {loading && (
+              <div className="bg-gray-700 rounded-lg flex items-center justify-center h-56 animate-pulse">
+                 <svg className="animate-spin h-8 w-8 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full min-h-[350px]">
+            <i className="fas fa-paint-brush text-gray-500 text-4xl mb-4"></i>
+            <p className="text-neutral-light text-lg">Your generated designs will appear here</p>
+            <p className="text-gray-400 text-sm mt-2">Describe what you'd like to create to get started</p>
+          </div>
+        )}
+      </div>
+    );
+
+    // Landing Page
+    const LandingPage = ({ onStartClick }) => (
+      <div className="text-neutral-light">
+        {/* Hero Section */}
+        <section className="hero-dark-gradient relative min-h-screen flex items-center p-4">
+          <div className="container mx-auto relative z-10">
+            <div className="max-w-3xl text-center mx-auto">
+              {/* Logo */}
+              <i className="fas fa-cube text-5xl mb-8 text-primary animate-fade-in"></i>
+
+              {/* Main Heading */}
+              <h1 className="text-5xl md:text-7xl font-bold uppercase tracking-widest mb-4 animate-fade-in animation-delay-200">
+                SPATIORA AI
+              </h1>
+
+              {/* Subheading */}
+              <p className="text-lg md:text-xl uppercase tracking-wider mb-12 text-violet-200 animate-fade-in animation-delay-400">
+                AI-Powered Interior & Floor Plan Generator
+              </p>
+
+              {/* Buttons */}
+              <div className="flex flex-col items-center space-y-6 animate-fade-in animation-delay-600">
+                <button onClick={onStartClick} className="btn-violet-outline !text-lg !px-10 !py-4 !rounded-full">
+                  Get Started
+                </button>
+                <a href="#how-it-works" className="text-violet-200 hover:text-white transition-colors">
+                  Learn More <i className="fas fa-arrow-right ml-1 text-sm"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Social Link */}
+          <div className="absolute bottom-4 left-4 z-10 flex items-center space-x-2 text-violet-400/70">
+            <i className="fab fa-twitter"></i><span>@SpatioraAI_Design</span>
+          </div>
+        </section>
+
+        {/* Image Gallery Section */}
+        <section id="gallery" className="py-20 px-4 bg-neutral-dark reveal-on-scroll">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">Discover What's Possible</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+              {galleryImages.map((item, index) => (
+                <div key={index} className="image-card bg-gray-800 rounded-lg overflow-hidden shadow-lg border border-gray-700">
+                  <img src={item.url} alt={item.title} className="w-full h-64 object-cover" />
+                  <div className="p-4">
+                    <h3 className="font-medium text-lg text-neutral-light">{item.title}</h3>
+                  </div>
+                  <div className="image-overlay">
+                    <h4 className="text-white font-medium mb-2">{item.title}</h4>
+                    <p className="text-gray-300 text-sm">AI-generated design with customizable elements</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            
+            <div className="text-center">
+              <button className="bg-primary text-white px-6 py-3 rounded-full hover:bg-secondary btn">
+                View More <i className="fas fa-chevron-right ml-1"></i>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        {/* Features Section */}
+        <section id="how-it-works" className="py-20 px-4 bg-neutral-dark reveal-on-scroll">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
+            
+            <div className="space-y-16">
+              {/* Step 1 */}
+              <div className="grid md:grid-cols-5 gap-12 items-center">
+                <div className="md:col-span-3">
+                  <span className="text-primary font-bold">01</span>
+                  <h3 className="text-2xl font-bold my-2">Describe Your Vision</h3>
+                  <p className="text-gray-300">Start by writing a simple description of the space you want to create. Be as detailed or as brief as you like. Mention room types, styles, and key features.</p>
+                </div>
+                <div className="md:col-span-2">
+                  <img src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max" alt="Sketching a floor plan" className="rounded-lg shadow-lg w-full h-auto" />
+                </div>
+              </div>
+              {/* Step 2 */}
+              <div className="grid md:grid-cols-5 gap-12 items-center">
+                <div className="md:col-span-2 md:order-2">
+                  <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max" alt="AI generating designs" className="rounded-lg shadow-lg w-full h-auto" />
+                </div>
+                <div className="md:col-span-3 md:order-1">
+                  <span className="text-primary font-bold">02</span>
+                  <h3 className="text-2xl font-bold my-2">AI Works Its Magic</h3>
+                  <p className="text-gray-300">Our advanced AI analyzes your prompt and generates a variety of professional-quality design options in seconds, complete with different layouts and styles.</p>
+                </div>
+              </div>
+              {/* Step 3 */}
+              <div className="grid md:grid-cols-5 gap-12 items-center">
+                <div className="md:col-span-3">
+                  <span className="text-primary font-bold">03</span>
+                  <h3 className="text-2xl font-bold my-2">Download & Customize</h3>
+                  <p className="text-gray-300">Browse your generated designs, save your favorites, and download high-resolution images. You can then refine the prompt to further customize the results.</p>
+                </div>
+                <div className="md:col-span-2">
+                  <img src="https://images.unsplash.com/photo-1588854337236-6889d631f379?ixlib=rb-4.0.3&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=1080&fit=max" alt="Customizing a design" className="rounded-lg shadow-lg w-full h-auto" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section id="testimonials" className="py-20 px-4 bg-neutral-dark reveal-on-scroll">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">What Our Users Say</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-lg">
+                <i className="fas fa-quote-left text-primary text-2xl mb-4"></i>
+                <p className="text-gray-300 mb-4">"SpaceAI has revolutionized my workflow. I can quickly generate floor plan concepts and show clients multiple options in minutes."</p>
+                <div className="flex items-center">
+                  <img src="https://i.pravatar.cc/48?u=1" alt="Sarah Johnson" className="w-10 h-10 rounded-full mr-3" />
+                  <div>
+                    <h4 className="font-medium">Sarah Johnson</h4>
+                    <p className="text-sm text-gray-400">Interior Designer</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-lg">
+                <i className="fas fa-quote-left text-primary text-2xl mb-4"></i>
+                <p className="text-gray-300 mb-4">"Planning our home renovation became so much easier. We could visualize different layouts before committing to major changes."</p>
+                <div className="flex items-center">
+                  <img src="https://i.pravatar.cc/48?u=2" alt="Michael Chen" className="w-10 h-10 rounded-full mr-3" />
+                  <div>
+                    <h4 className="font-medium">Michael Chen</h4>
+                    <p className="text-sm text-gray-400">Homeowner</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gray-800 p-6 rounded-lg border border-gray-700 shadow-lg">
+                <i className="fas fa-quote-left text-primary text-2xl mb-4"></i>
+                <p className="text-gray-300 mb-4">"The speed at which I can generate concepts with SpaceAI is incredible. It's become an essential tool in our early design phases."</p>
+                <div className="flex items-center">
+                  <img src="https://i.pravatar.cc/48?u=3" alt="Emily Rodriguez" className="w-10 h-10 rounded-full mr-3" />
+                  <div>
+                    <h4 className="font-medium">Emily Rodriguez</h4>
+                    <p className="text-sm text-gray-400">Architect</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-20 px-4 bg-primary text-neutral reveal-on-scroll">
+          <div className="container mx-auto text-center">
+            <h2 className="text-3xl font-bold mb-6">Ready to Transform Your Space?</h2>
+            <p className="text-xl mb-8 max-w-2xl mx-auto">Join thousands of users creating amazing designs with AI</p>
+            <button 
+              onClick={onStartClick}
+              className="bg-neutral text-primary px-8 py-3 rounded-full text-lg font-medium hover:bg-violet-100 btn"
+            >
+              Get Started For Free
+            </button>
+          </div>
+        </section>
+      </div>
+    );
+
+    // Tool Selection Page
+    const ToolSelectionPage = ({ onToolSelect }) => (
+      <div className="pt-24 pb-16 px-4 bg-neutral-dark">
+        <div className="container mx-auto max-w-4xl">
+          <h1 className="text-3xl md:text-4xl font-bold text-center mb-12">What would you like to create?</h1>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <button 
+              type="button"
+              className="bg-gray-800 p-8 rounded-lg shadow-md text-center border border-gray-700 hover:border-primary card-hover cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+              onClick={() => onToolSelect('floorplan')}
+            >
+              <div className="inline-block p-4 bg-violet-100 rounded-full mb-6">
+                <i className="fas fa-drafting-compass text-primary text-4xl"></i>
+              </div>
+              <h2 className="text-2xl font-bold mb-3">Floor Plan Generator</h2>
+              <p className="text-gray-300 mb-6">Create detailed floor plans for any space. Perfect for home renovations, office layouts, and architectural concepts.</p>
+              <span className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary btn">Select Tool <i className="fas fa-arrow-right ml-2"></i></span>
+            </button>
+            
+            <button 
+              type="button"
+              className="bg-gray-800 p-8 rounded-lg shadow-md text-center border border-gray-700 hover:border-primary card-hover cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary"
+              onClick={() => onToolSelect('interior')}
+            >
+              <div className="inline-block p-4 bg-violet-100 rounded-full mb-6">
+                <i className="fas fa-couch text-accent text-4xl"></i>
+              </div>
+              <h2 className="text-2xl font-bold mb-3">Interior Design Generator</h2>
+              <p className="text-gray-300 mb-6">Visualize interior spaces with different styles, colors, and furniture arrangements. See your ideas come to life.</p>
+              <span className="bg-primary text-white px-6 py-2 rounded-full hover:bg-secondary btn">Select Tool <i className="fas fa-arrow-right ml-2"></i></span>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+
+    // Generator Page (Combined)
+    const GeneratorPage = ({ pageConfig, onBack }) => {
+      const [prompt, setPrompt] = useState('');
+      const [loading, setLoading] = useState(false);
+      const [results, setResults] = useState(null);
+      const [error, setError] = useState(null);
+      const [selectedStyleId, setSelectedStyleId] = useState(pageConfig.styles ? pageConfig.styles[0].id : null);
+      
+      const handleGenerate = async () => {
+        if (!prompt.trim()) return;
+        
+        setLoading(true);
+        setResults({ images: [] }); // Reset to an empty array to show progress
+        setError(null);
+        
+        try {
+          const styleName = pageConfig.styles?.find(s => s.id === selectedStyleId)?.name || '';
+          const response = await pageConfig.apiFn(prompt, styleName);
+
+          const reader = response.body.getReader();
+          const decoder = new TextDecoder();
+
+          const processStream = async () => {
+            const { done, value } = await reader.read();
+            if (done) {
+              setLoading(false);
+              return;
+            }
+
+            const chunk = decoder.decode(value, { stream: true });
+            const events = chunk.split('\n\n').filter(e => e.length > 0);
+
+            events.forEach(eventStr => {
+              if (eventStr.startsWith('data:')) {
+                const jsonData = eventStr.substring(5).trim();
+                const data = JSON.parse(jsonData);
+                if (data.url) { // Check for the URL to confirm it's an image object
+                  setResults(prev => ({ images: [...(prev?.images || []), data] }));
+                }
+              }
+            });
+            processStream();
+          };
+          processStream();
+        } catch (err) {
+          console.error("Error generating design:", err);
+          setError(err.message || "Failed to connect to the server. Please ensure the backend is running.");
+          setLoading(false);
+        }
+      };
+      
+      return (
+        <div className="pt-24 pb-16 px-4 bg-neutral-dark">
+          <div className="container mx-auto max-w-7xl">
+            <button onClick={onBack} className="text-gray-300 hover:text-primary mb-8 inline-flex items-center">
+              <i className="fas fa-arrow-left mr-2"></i> Back to Tools
+            </button>
+            <h1 className="text-3xl font-bold mb-2">{pageConfig.title}</h1>
+            <p className="text-gray-400 mb-10">Describe your vision and let our AI bring it to life.</p>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+              <div className="lg:col-span-4">
+                <div className="lg:sticky lg:top-24">
+                  <div className="bg-gray-800 p-6 rounded-lg shadow-md border border-gray-700">
+                    <h2 className="text-xl font-bold mb-6">Design Specifications</h2>
+                    
+                    <PromptInputComponent 
+                      placeholder={pageConfig.promptPlaceholder}
+                      value={prompt}
+                      onChange={setPrompt}
+                    />
+                    
+                    {pageConfig.tool_type !== 'floorplan' && (
+                      <StyleSelectorComponent 
+                        styles={pageConfig.styles} 
+                        selectedStyle={selectedStyleId}
+                        onSelect={setSelectedStyleId}
+                      />
+                    )}
+                    
+                    <div className="mt-6">
+                      <GenerateButtonComponent 
+                        onClick={handleGenerate}
+                        loading={loading}
+                        disabled={!prompt.trim()}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="lg:col-span-8">
+                <h2 className="text-xl font-bold mb-6">Generated Designs</h2>
+                <ResultsDisplayComponent loading={loading} results={results} error={error} />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    };
+
+    // Main App
+    const App = () => {
+      const [page, setPage] = useState({ name: 'landing', config: null });
+
+      useEffect(() => {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.1 });
+
+        const elementsToReveal = document.querySelectorAll('.reveal-on-scroll');
+        elementsToReveal.forEach(el => observer.observe(el));
+
+        return () => {
+          elementsToReveal.forEach(el => observer.unobserve(el));
+        };
+      }, [page.name]);
+
+      const pageConfigs = {
+        floorplan: {
+          tool_type: 'floorplan',
+          title: 'Floor Plan Generator',
+          promptPlaceholder: "e.g., 'A modern 2-bedroom apartment with an open kitchen and living area, approximately 1000 sq ft'",
+          apiFn: (prompt, style) => generateInteriorDesign(prompt, style, 'floorplan')
+        },
+        interior: {
+          tool_type: 'interior',
+          title: 'Interior Design Generator',
+          promptPlaceholder: "e.g., 'A cozy living room with a fireplace, large windows, and comfortable seating for 6 people'",
+          styles: [
+            { id: 1, name: 'Modern', icon: 'fa-couch' },
+            { id: 2, name: 'Minimalist', icon: 'fa-square' },
+            { id: 3, name: 'Scandinavian', icon: 'fa-chair' },
+            { id: 4, name: 'Classic', icon: 'fa-landmark' },
+            { id: 5, name: 'Rustic', icon: 'fa-tree' },
+            { id: 6, name: 'Futuristic', icon: 'fa-rocket' }
+          ],
+          apiFn: generateInteriorDesign
+        }
+      };
+      
+      const navigate = (pageName, config = null) => {
+        setPage({ name: pageName, config });
+      };
+
+      const handleToolSelect = (tool) => {
+        navigate('generator', pageConfigs[tool]);
+      };
+      
+      const renderPage = () => {
+        switch (page.name) {
+          case 'tool-selection':
+            return <ToolSelectionPage onToolSelect={handleToolSelect} />;
+          case 'generator':
+            return <GeneratorPage pageConfig={page.config} onBack={() => navigate('tool-selection')} />;
+          case 'landing':
+          default:
+            return <LandingPage onStartClick={() => navigate('tool-selection')} />;
+        }
+      };
+      
+      return (
+        <div className="min-h-screen flex flex-col">
+          <Header onNavigate={navigate} />
+          <main className="flex-grow">
+            {renderPage()}
+          </main>
+          <Footer />
+        </div>
+      );
+    };
+
+    // Render the App component
+    ReactDOM.render(<App />, document.getElementById('root'));
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+# Python virtual environment
+venv/
+*/venv/
+env/
+*/env/
+.env
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Large model files - These should not be in Git.
+# Add a README explaining how to acquire them.
+models/
+
+# Generated output files
+outputs/
+*.png
+
+# IDE/Editor specific files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
