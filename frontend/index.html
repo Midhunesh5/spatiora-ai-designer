@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatiora AI - AI-Powered Design Solutions</title>
+    <meta name="description"
+        content="Transform your architectural vision into reality with AI-powered floor plans and interior designs. Create, refine, and bring your ideas to life in minutes.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ===== HEADER ===== -->
+    <header id="header">
+        <nav id="nav">
+            <div class="logo" onclick="showHome()">Spatiora AI</div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showHome(); return false;">Home</a></li>
+                <li><a href="#" onclick="navigateToTools(); return false;">Tools</a></li>
+                <li><a href="#" onclick="navigateGallery(); return false;">Gallery</a></li>
+                <li><a href="#" onclick="navigateBilling(); return false;">Pricing</a></li>
+            </ul>
+            <div class="nav-right">
+                <button id="auth-button" class="cta-button" onclick="navigateLogin()">Login / Signup</button>
+                <div class="profile-dropdown" id="profile-dropdown" style="display:none;">
+                    <button class="profile-icon" id="profile-icon" onclick="toggleProfileDropdown()"
+                        aria-label="User menu">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="profile-menu" id="profile-menu">
+                        <a href="#" onclick="navigateSettings(); toggleProfileDropdown(); return false;"><i
+                                class="fas fa-gear"></i> Settings</a>
+                        <a href="#" onclick="logout(); return false;" class="danger"><i class="fas fa-sign-out-alt"></i>
+                            Log Out</a>
+                    </div>
+                </div>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ===== HOME PAGE ===== -->
+    <section class="hero" id="home-page" style="display:none;">
+        <div class="hero-particles">
+            <span style="left:5%;top:15%;"></span>
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="hero-content">
+            <h1>Design Spaces That <span class="gradient-text">Inspire</span></h1>
+            <p>Transform your architectural vision into reality with AI-powered floor plans and interior designs.
+                Create, refine, and bring your ideas to life in minutes.</p>
+            <div class="hero-ctas">
+                <button class="cta-button primary-btn" onclick="navigateToTools()">Start Designing</button>
+                <button class="cta-button secondary-btn" onclick="navigateLearnMore()">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TOOLS PAGE ===== -->
+    <section class="tool-section" id="tools-page" style="display:none;">
+        <div class="section-heading">
+            <h2>Our AI Design Tools</h2>
+            <p>Professional-grade design tools powered by cutting-edge artificial intelligence</p>
+        </div>
+        <div class="tools-showcase">
+            <div class="tool-showcase-card" onclick="navigateToTool('floorplan')">
+                <div class="tool-showcase-visual">
+                    <div class="tool-showcase-icon"><i class="fas fa-ruler-combined"></i></div>
+                    <span class="tool-badge">AI-Powered</span>
+                </div>
+                <div class="tool-showcase-content">
+                    <h3>Floor Plan Generator</h3>
+                    <p>Transform your ideas into professional architectural floor plans. Describe your space in natural
+                        language and get accurate layouts instantly.</p>
+                    <ul class="tool-highlights">
+                        <li><i class="fas fa-bolt"></i> Instant generation</li>
+                        <li><i class="fas fa-image"></i> HD output</li>
+                        <li><i class="fas fa-download"></i> Easy download</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+            <div class="tool-showcase-card" onclick="navigateToTool('interior')">
+                <div class="tool-showcase-visual">
+                    <div class="tool-showcase-icon"><i class="fas fa-sofa"></i></div>
+                    <span class="tool-badge">AI-Powered</span>
+                </div>
+                <div class="tool-showcase-content">
+                    <h3>Interior Design Generator</h3>
+                    <p>Create photorealistic interior renders with furniture, lighting, and color palettes tailored to
+                        your preferred style and aesthetic.</p>
+                    <ul class="tool-highlights">
+                        <li><i class="fas fa-palette"></i> Multiple styles</li>
+                        <li><i class="fas fa-wand-magic-sparkles"></i> Photorealistic</li>
+                        <li><i class="fas fa-save"></i> Save to gallery</li>
+                    </ul>
+                    <button class="tool-try-btn">Try Now <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works-section" style="display:none;">
+        <div class="section-heading">
+            <h2>How It Works</h2>
+            <p>Three simple steps to create your perfect design</p>
+        </div>
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-pencil-alt"></i></div>
+                <h3>Describe Your Vision</h3>
+                <p>Tell our AI about your space requirements, style preferences, and specific features you want</p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                <h3>AI Generates Designs</h3>
+                <p>Our advanced AI processes your input and generates professional, high-quality designs instantly</p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-download"></i></div>
+                <h3>Download &amp; Share</h3>
+                <p>Download your creations in multiple formats or share them directly with your team</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FLOORPLAN GENERATOR ===== -->
+    <section class="generator-page" id="floorplan-page" style="display:none;">
+        <div class="generator-container">
+            <a href="#" onclick="navigateBack(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                    style="margin-right: 0.5rem;"></i>Back to Tools</a>
+            <div class="generator-header">
+                <div class="generator-header-icon"><i class="fas fa-ruler-combined"></i></div>
+                <div>
+                    <h1>Floor Plan Generator</h1>
+                    <p>Describe your space and our AI creates professional floor plans instantly</p>
+                </div>
+            </div>
+            <div class="generator-grid">
+                <div class="generator-input-card">
+                    <h2><i class="fas fa-pencil-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>Describe
+                        Your Space</h2>
+                    <textarea class="generator-textarea" id="promptInput-floorplan"
+                        placeholder="e.g., 'A modern 2-bedroom apartment with open kitchen, living room, balcony, and master bathroom. Total area is approximately 1000 sq ft.'"></textarea>
+                    <button class="generator-submit" onclick="generateFloorPlan()">
+                        <i class="fas fa-wand-magic-sparkles"></i> Generate Floor Plan
+                    </button>
+                </div>
+                <div class="generator-tips-card">
+                    <h3><i class="fas fa-lightbulb" style="color: #f59e0b;"></i> Tips for best results</h3>
+                    <ul>
+                        <li>This is an beta Version So AI can make errors</li>
+                        <li>Specify number of rooms and their types</li>
+                        <li>the total area (sq ft or sq m) will not be precise</li>
+                    </ul>
+                    <div class="generator-example">
+                        <strong>Example prompt:</strong>
+                        <p>"A 2BHK apartment, with an kitchen connected to the living room, a master
+                            bedroom with attached bathroom, and a small balcony."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== INTERIOR DESIGN GENERATOR ===== -->
+    <section class="generator-page" id="interior-page" style="display:none;">
+        <div class="generator-container">
+            <a href="#" onclick="navigateBack(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                    style="margin-right: 0.5rem;"></i>Back to Tools</a>
+            <div class="generator-header">
+                <div class="generator-header-icon" style="background: linear-gradient(135deg, #8b5cf6, #ec4899);"><i
+                        class="fas fa-sofa"></i></div>
+                <div>
+                    <h1>Interior Design Generator</h1>
+                    <p>Describe your vision and get stunning photorealistic interior renders</p>
+                </div>
+            </div>
+            <div class="generator-grid">
+                <div class="generator-input-card">
+                    <h2><i class="fas fa-pencil-alt" style="color: var(--primary); margin-right: 0.5rem;"></i>Describe
+                        Your Design</h2>
+                    <textarea class="generator-textarea" id="promptInput-interior"
+                        placeholder="e.g., 'A cozy bedroom with a modern minimalist style. Include a comfortable bed, warm lighting, wooden furniture, and neutral color palette.'"></textarea>
+
+                    <div class="style-selector">
+                        <h3><i class="fas fa-palette" style="color: var(--primary); margin-right: 0.5rem;"></i>Choose a
+                            Style</h3>
+                        <div class="style-chips">
+                            <button class="style-chip" onclick="selectStyle('modern', this)"><i
+                                    class="fas fa-building"></i> Modern</button>
+                            <button class="style-chip" onclick="selectStyle('minimalist', this)"><i
+                                    class="fas fa-minus-circle"></i> Minimalist</button>
+                            <button class="style-chip" onclick="selectStyle('industrial', this)"><i
+                                    class="fas fa-industry"></i> Industrial</button>
+                            <button class="style-chip" onclick="selectStyle('luxury', this)"><i
+                                    class="fas fa-crown"></i> Luxury</button>
+                            <button class="style-chip" onclick="selectStyle('scandinavian', this)"><i
+                                    class="fas fa-snowflake"></i> Scandinavian</button>
+                            <button class="style-chip" onclick="selectStyle('bohemian', this)"><i
+                                    class="fas fa-leaf"></i> Bohemian</button>
+                        </div>
+                    </div>
+
+                    <button class="generator-submit" onclick="generateInteriorDesign()">
+                        <i class="fas fa-wand-magic-sparkles"></i> Generate Design
+                    </button>
+                </div>
+                <div class="generator-tips-card">
+                    <h3><i class="fas fa-lightbulb" style="color: #f59e0b;"></i> Tips for best results</h3>
+                    <ul>
+                        <li>Describe the room type (bedroom, living room, etc.)</li>
+                        <li>Mention your preferred colour palette</li>
+                        <li>Include furniture and decor preferences</li>
+                        <li>Specify lighting mood (warm, bright, ambient)</li>
+                    </ul>
+                    <div class="generator-example">
+                        <strong>Example prompt:</strong>
+                        <p>"A spacious living room with warm earthy tones, a large grey sectional sofa, wooden coffee
+                            table, indoor plants, and soft ambient lighting."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RESULTS SECTION ===== -->
+    <section class="results-page" id="results-section" style="display:none;">
+        <div class="results-container">
+            <div class="results-top-bar" id="results-top-bar">
+                <a href="#" onclick="backToEditor(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                        style="margin-right: 0.5rem;"></i>Back to Editor</a>
+                <span class="results-status" id="results-status"><i class="fas fa-spinner fa-spin"
+                        style="margin-right: 0.5rem;"></i>Generating...</span>
+            </div>
+            <div class="results-header">
+                <h2>Your Generated Designs</h2>
+                <p>Choose one, download, or save to your gallery</p>
+            </div>
+            <div class="results-grid" id="resultsContainer"></div>
+            <div class="results-actions" id="selection-buttons"></div>
+        </div>
+    </section>
+
+    <!-- Generating notification banner (visible on other pages while generation runs in background) -->
+    <div class="generating-banner" id="generating-banner" style="display:none;">
+        <div class="generating-banner-content" onclick="returnToResults()">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>Your design is generating...</span>
+            <button class="generating-banner-btn">View Progress <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- ===== GALLERY PAGE ===== -->
+    <section class="gallery-section" id="gallery-page" style="display:none;">
+        <div class="section-heading">
+            <h2>Gallery of Creations</h2>
+            <p>Explore designs generated by our community of creative professionals</p>
+        </div>
+        <div class="gallery-grid" id="galleryGrid"></div>
+    </section>
+
+    <!-- ===== LEARN MORE PAGE ===== -->
+    <section class="learn-page" id="learn-page" style="display:none;">
+        <a href="#" onclick="showHome(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                style="margin-right: 0.5rem;"></i>Back to Home</a>
+        <div class="learn-header" style="margin-top: 2rem;">
+            <h1>How Spatiora AI Works</h1>
+            <p>From idea to design in three simple steps — powered by cutting-edge AI</p>
+        </div>
+
+        <!-- Step-by-step Visual Flow -->
+        <div class="learn-steps">
+            <div class="learn-step-card">
+                <div class="learn-step-number">01</div>
+                <div class="learn-step-icon"><i class="fas fa-pencil-alt"></i></div>
+                <h3>Describe Your Vision</h3>
+                <p>Tell our AI what you need — room dimensions, style preferences, specific features. The more detail
+                    you provide, the better the result.</p>
+                <ul>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Natural
+                        language input</li>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Style selection
+                    </li>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Prompt
+                        assistant bot</li>
+                </ul>
+            </div>
+            <div class="learn-step-card">
+                <div class="learn-step-number">02</div>
+                <div class="learn-step-icon"><i class="fas fa-wand-magic-sparkles"></i></div>
+                <h3>AI Generates Designs</h3>
+                <p>Our Stable Diffusion models fine-tuned with architectural LoRAs generate photorealistic floor plans
+                    and interior renders in seconds.</p>
+                <ul>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Multiple design
+                        options</li>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>High-resolution
+                        output</li>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Real-time
+                        streaming</li>
+                </ul>
+            </div>
+            <div class="learn-step-card">
+                <div class="learn-step-number">03</div>
+                <div class="learn-step-icon"><i class="fas fa-download"></i></div>
+                <h3>Download &amp; Iterate</h3>
+                <p>Save your favorites to your gallery, download in high resolution, or regenerate with tweaked prompts
+                    until you get the perfect result.</p>
+                <ul>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Save to
+                        personal gallery</li>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>One-click
+                        download</li>
+                    <li><i class="fas fa-check" style="color: var(--primary); margin-right: 0.5rem;"></i>Unlimited
+                        regenerations</li>
+                </ul>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <button class="cta-button primary-btn" onclick="navigateToTools()"
+                style="padding: 1rem 2.5rem; font-size: 1.05rem;"><i class="fas fa-rocket"
+                    style="margin-right: 0.5rem;"></i>Start Creating Now</button>
+        </div>
+    </section>
+
+    <!-- ===== ABOUT US PAGE ===== -->
+    <section class="about-page" id="about-page" style="display:none;">
+        <a href="#" onclick="showHome(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                style="margin-right: 0.5rem;"></i>Back to Home</a>
+        <div class="about-header" style="margin-top: 2rem;">
+            <h1>About Spatiora AI</h1>
+            <p>We're on a mission to democratize architectural and interior design using artificial intelligence</p>
+        </div>
+
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="about-card-icon"><i class="fas fa-bullseye"></i></div>
+                <h3>Our Mission</h3>
+                <p>To make professional-quality design accessible to everyone — from homeowners planning renovations to
+                    architects seeking rapid prototyping. We believe great design shouldn't require years of training or
+                    expensive software.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon"><i class="fas fa-eye"></i></div>
+                <h3>Our Vision</h3>
+                <p>A world where anyone can visualize and bring their dream spaces to life in minutes. We're building
+                    the bridge between imagination and reality using state-of-the-art generative AI.</p>
+            </div>
+            <div class="about-card">
+                <div class="about-card-icon"><i class="fas fa-microchip"></i></div>
+                <h3>Our Technology</h3>
+                <p>Spatiora AI is powered by fine-tuned Stable Diffusion models with custom LoRA adapters trained on
+                    thousands of architectural and interior design datasets for photorealistic results.</p>
+            </div>
+        </div>
+
+        <div class="about-stats">
+            <div class="stat-item">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Designs Generated</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">2K+</div>
+                <div class="stat-label">Happy Users</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">4.8★</div>
+                <div class="stat-label">User Rating</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">&lt;30s</div>
+                <div class="stat-label">Average Generation</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT PAGE ===== -->
+    <section class="contact-page" id="contact-page" style="display:none;">
+        <a href="#" onclick="showHome(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                style="margin-right: 0.5rem;"></i>Back to Home</a>
+        <div class="contact-header" style="margin-top: 2rem;">
+            <h1>Get In Touch</h1>
+            <p>Have questions, feedback, or partnership inquiries? We'd love to hear from you.</p>
+        </div>
+
+        <div class="contact-grid">
+            <div class="contact-form-card">
+                <h2><i class="fas fa-paper-plane" style="color: var(--primary); margin-right: 0.75rem;"></i>Send Us a
+                    Message</h2>
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="contact-name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="contact-email" placeholder="name@company.com">
+                </div>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <input type="text" id="contact-subject" placeholder="How can we help?">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea id="contact-message" placeholder="Tell us more about your inquiry..."
+                        style="min-height: 140px; resize: vertical;"></textarea>
+                </div>
+                <button class="cta-button primary-btn" onclick="submitContact()"
+                    style="width: 100%; padding: 1rem; font-size: 1rem;"><i class="fas fa-paper-plane"
+                        style="margin-right: 0.5rem;"></i>Send Message</button>
+            </div>
+
+            <div class="contact-info-cards">
+                <div class="contact-info-item">
+                    <div class="contact-info-icon"><i class="fas fa-envelope"></i></div>
+                    <h3>Email Us</h3>
+                    <p>support@spatiora.ai</p>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-info-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Response Time</h3>
+                    <p>We typically respond within 24 hours</p>
+                </div>
+                <div class="contact-info-item">
+                    <div class="contact-info-icon"><i class="fas fa-hashtag"></i></div>
+                    <h3>Follow Us</h3>
+                    <p><a href="#" style="color: var(--primary); text-decoration: none; font-weight: 600;">Instagram</a>
+                        &amp; <a href="#"
+                            style="color: var(--primary); text-decoration: none; font-weight: 600;">LinkedIn</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ===== PRICING PAGE ===== -->
+    <section class="billing-page" id="billing-page" style="display:none;">
+        <a href="#" onclick="showHome(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                style="margin-right: 0.5rem;"></i>Back to Home</a>
+        <div class="billing-header" style="margin-top: 2rem;">
+            <h1>Simple, Transparent Pricing</h1>
+            <p>Choose the perfect plan for your design needs. No hidden fees, cancel anytime.</p>
+        </div>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <span class="pricing-badge">FREE</span>
+                <h3>Starter</h3>
+                <div class="pricing-price">₹0</div>
+                <div class="pricing-period">Free forever</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i>5 designs per month</li>
+                    <li><i class="fas fa-check"></i>Basic design styles</li>
+                    <li><i class="fas fa-check"></i>PNG downloads</li>
+                    <li><i class="fas fa-check"></i>Community support</li>
+                    <li><i class="fas fa-times" style="color: var(--text-lighter);"></i><span
+                            style="color: var(--text-lighter);">Watermark on exports</span></li>
+                </ul>
+                <button class="pricing-cta" onclick="navigateToTools()">Get Started Free</button>
+            </div>
+            <div class="pricing-card featured">
+                <span class="pricing-badge">MOST POPULAR</span>
+                <h3>Builder</h3>
+                <div class="pricing-price">₹499<span class="pricing-per">/mo</span></div>
+                <div class="pricing-period">Billed monthly · ₹4,199/yr (save 30%)</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i>50 designs per month</li>
+                    <li><i class="fas fa-check"></i>All design styles</li>
+                    <li><i class="fas fa-check"></i>HD export (PNG, JPG)</li>
+                    <li><i class="fas fa-check"></i>Priority support</li>
+                    <li><i class="fas fa-check"></i>No watermark</li>
+                    <li><i class="fas fa-check"></i>Gallery cloud storage</li>
+                </ul>
+                <button class="pricing-cta" onclick="alert('Redirecting to payment...')">Upgrade to Builder</button>
+            </div>
+            <div class="pricing-card">
+                <span class="pricing-badge">PRO</span>
+                <h3>Professional</h3>
+                <div class="pricing-price">₹1,499<span class="pricing-per">/mo</span></div>
+                <div class="pricing-period">Billed monthly · ₹12,499/yr (save 30%)</div>
+                <ul class="pricing-features">
+                    <li><i class="fas fa-check"></i>Unlimited designs</li>
+                    <li><i class="fas fa-check"></i>All Builder features</li>
+                    <li><i class="fas fa-check"></i>API access</li>
+                    <li><i class="fas fa-check"></i>Team collaboration</li>
+                    <li><i class="fas fa-check"></i>Dedicated support</li>
+                    <li><i class="fas fa-check"></i>Custom branding</li>
+                    <li><i class="fas fa-check"></i>Analytics dashboard</li>
+                </ul>
+                <button class="pricing-cta" onclick="alert('Redirecting to payment...')">Go Professional</button>
+            </div>
+        </div>
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle" style="color: var(--primary); margin-right: 0.75rem;"></i>Frequently
+                Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <h3>Can I cancel anytime?</h3>
+                    <p>Yes, cancel your subscription anytime. You'll keep access until the end of your billing cycle.
+                    </p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is there an annual discount?</h3>
+                    <p>Yes! Save 30% with annual billing. Prices are shown on each plan card above.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>What payment methods work?</h3>
+                    <p>We accept UPI, all major cards, net banking, and wallets through our secure payment partner.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>Is GST included?</h3>
+                    <p>All prices shown are inclusive of 18% GST. You'll receive a proper tax invoice for every payment.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Have more questions? <a href="#"
+                    onclick="navigateContact(); return false;"
+                    style="color: var(--primary); font-weight: 600; text-decoration: none;">Contact us</a></p>
+        </div>
+    </section>
+
+    <!-- ===== LOGIN PAGE ===== -->
+    <section class="login-page" id="login-page" style="display:none;">
+        <div class="login-container">
+            <a href="#" onclick="showHome(); return false;" class="back-link"><i class="fas fa-arrow-left"
+                    style="margin-right: 0.5rem;"></i>Back to Home</a>
+            <h1>Spatiora AI</h1>
+            <p>Your AI-powered design companion</p>
+            <div class="tab-switcher">
+                <button class="tab-btn active" onclick="switchTab('login', this)">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('signup', this)">Create Account</button>
+            </div>
+            <!-- LOGIN FORM -->
+            <div id="login-tab">
+                <div class="form-group"><label><i class="fas fa-envelope"
+                            style="color:var(--primary); margin-right:0.5rem;"></i>Email Address</label><input
+                        type="email" id="login-email" placeholder="name@company.com"></div>
+                <div class="form-group"><label><i class="fas fa-lock"
+                            style="color:var(--primary); margin-right:0.5rem;"></i>Password</label><input
+                        type="password" id="login-password" placeholder="••••••••"></div>
+                <div class="form-group"
+                    style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+                    <input type="checkbox" id="login-privacy"
+                        style="margin-top: 0.4rem; cursor: pointer; accent-color: var(--primary);">
+                    <label
+                        style="margin: 0; cursor: pointer; font-size: 0.85rem; color: var(--text-light); font-weight: 500;">I
+                        agree to the <a href="#" onclick="openPrivacyModal(); return false;"
+                            style="color:var(--primary); font-weight:700;">Privacy Policy</a> and <a href="#"
+                            onclick="openTermsModal(); return false;"
+                            style="color:var(--primary); font-weight:700;">Terms of Service</a></label>
+                </div>
+                <div class="form-group"><button onclick="login()"><i class="fas fa-arrow-right"
+                            style="margin-right:0.5rem;"></i>Sign In</button></div>
+                <p style="text-align: center; color: var(--text-light); font-size: 0.85rem; font-weight: 500;">Don't
+                    have an account? Click the <strong>Create Account</strong> tab above.</p>
+            </div>
+            <!-- SIGNUP FORM -->
+            <div id="signup-tab" style="display:none;">
+                <div class="form-group"><label><i class="fas fa-user"
+                            style="color:var(--primary); margin-right:0.5rem;"></i>Username</label><input type="text"
+                        id="signup-username" placeholder="your_username"></div>
+                <div class="form-group"><label><i class="fas fa-envelope"
+                            style="color:var(--primary); margin-right:0.5rem;"></i>Email Address</label><input
+                        type="email" id="signup-email" placeholder="name@company.com"></div>
+                <div class="form-group"><label><i class="fas fa-lock"
+                            style="color:var(--primary); margin-right:0.5rem;"></i>Password</label><input
+                        type="password" id="signup-password" placeholder="••••••••"></div>
+                <div class="form-group"
+                    style="display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem;">
+                    <input type="checkbox" id="signup-privacy"
+                        style="margin-top: 0.4rem; cursor: pointer; accent-color: var(--primary);">
+                    <label
+                        style="margin: 0; cursor: pointer; font-size: 0.85rem; color: var(--text-light); font-weight: 500;">I
+                        agree to the <a href="#" onclick="openPrivacyModal(); return false;"
+                            style="color:var(--primary); font-weight:700;">Privacy Policy</a> and <a href="#"
+                            onclick="openTermsModal(); return false;"
+                            style="color:var(--primary); font-weight:700;">Terms of Service</a></label>
+                </div>
+                <div class="form-group"><button onclick="signup()"><i class="fas fa-check"
+                            style="margin-right:0.5rem;"></i>Create Account</button></div>
+                <p style="text-align: center; color: var(--text-light); font-size: 0.85rem; font-weight: 500;">By
+                    creating an account, you can save your designs and access your gallery.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== SETTINGS PAGE ===== -->
+    <section class="settings-page" id="settings-page" style="display:none;">
+        <div class="settings-header">
+            <h1>Settings</h1>
+            <p>Manage your account, preferences, and subscription</p>
+        </div>
+        <div class="settings-grid">
+            <!-- Settings Nav -->
+            <div class="settings-nav">
+                <button class="settings-nav-item active" onclick="switchSettingsTab('profile', this)"><i
+                        class="fas fa-user"></i> Profile</button>
+                <button class="settings-nav-item" onclick="switchSettingsTab('security', this)"><i
+                        class="fas fa-shield-halved"></i> Security</button>
+                <button class="settings-nav-item" onclick="switchSettingsTab('preferences', this)"><i
+                        class="fas fa-sliders"></i> Preferences</button>
+                <button class="settings-nav-item" onclick="switchSettingsTab('subscription', this)"><i
+                        class="fas fa-credit-card"></i> Subscription</button>
+            </div>
+            <!-- Settings Content -->
+            <div class="settings-content">
+                <!-- Profile Card -->
+                <div class="settings-card" data-section="profile">
+                    <h2><i class="fas fa-user-circle"></i> Profile Information</h2>
+                    <p class="card-description">Update your personal details and public profile</p>
+                    <div class="settings-form-row">
+                        <div class="form-group"><label>Username</label><input type="text" id="settings-username"
+                                placeholder="your_username"></div>
+                        <div class="form-group"><label>Email Address</label><input type="email" id="settings-email"
+                                placeholder="name@company.com"></div>
+                    </div>
+                    <div class="settings-actions">
+                        <button class="settings-btn primary" onclick="saveProfile()"><i class="fas fa-check"
+                                style="margin-right: 0.4rem;"></i>Save Changes</button>
+                    </div>
+                </div>
+                <!-- Security Card -->
+                <div class="settings-card" data-section="security" style="display:none;">
+                    <h2><i class="fas fa-lock"></i> Password &amp; Security</h2>
+                    <p class="card-description">Change your password and manage security settings</p>
+                    <div class="settings-form-row">
+                        <div class="form-group"><label>Current Password</label><input type="password"
+                                id="settings-current-password" placeholder="••••••••"></div>
+                        <div class="form-group"><label>New Password</label><input type="password"
+                                id="settings-new-password" placeholder="••••••••"></div>
+                    </div>
+                    <div class="settings-actions">
+                        <button class="settings-btn primary" onclick="changePassword()"><i class="fas fa-key"
+                                style="margin-right: 0.4rem;"></i>Update Password</button>
+                    </div>
+                </div>
+                <!-- Preferences Card -->
+                <div class="settings-card" data-section="preferences" style="display:none;">
+                    <h2><i class="fas fa-palette"></i> Preferences</h2>
+                    <p class="card-description">Customize your experience and appearance</p>
+                    <div class="toggle-row">
+                        <div class="toggle-label">Dark Mode<small>Switch to a darker color scheme</small></div>
+                        <button class="toggle-switch" id="dark-mode-toggle" onclick="toggleDarkMode()"
+                            aria-label="Toggle dark mode"></button>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-label">Email Notifications<small>Receive updates about new features and
+                                tips</small></div>
+                        <button class="toggle-switch" onclick="this.classList.toggle('active')"
+                            aria-label="Toggle email notifications"></button>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-label">HD Quality Generation<small>Generate higher resolution designs (takes
+                                longer)</small></div>
+                        <button class="toggle-switch" onclick="this.classList.toggle('active')"
+                            aria-label="Toggle HD quality"></button>
+                    </div>
+                </div>
+                <!-- Subscription Card -->
+                <div class="settings-card" data-section="subscription" style="display:none;">
+                    <h2><i class="fas fa-gem"></i> Subscription</h2>
+                    <p class="card-description">Manage your plan and billing</p>
+                    <div class="plan-badge">CURRENT PLAN</div>
+                    <div class="plan-info">
+                        <span class="plan-name">Starter Pack</span>
+                        <span class="plan-price">Free</span>
+                    </div>
+                    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">You're on the free plan. Upgrade to
+                        unlock premium features, more designs per month, and priority support.</p>
+                    <div class="settings-actions">
+                        <button class="settings-btn primary" onclick="navigateBilling()"><i class="fas fa-arrow-up"
+                                style="margin-right: 0.4rem;"></i>Upgrade Plan</button>
+                    </div>
+                </div>
+                <!-- Account Actions -->
+                <div class="settings-card" data-section="profile">
+                    <h2><i class="fas fa-right-from-bracket"></i> Account Actions</h2>
+                    <p class="card-description">Manage your session and account</p>
+                    <div class="settings-actions">
+                        <button class="settings-btn outline" onclick="logout()"><i class="fas fa-sign-out-alt"
+                                style="margin-right: 0.4rem;"></i>Log Out</button>
+                        <button class="settings-btn danger"
+                            onclick="if(confirm('Are you sure you want to delete your account? This cannot be undone.')) showToast('Account deletion requested', 'info')"><i
+                                class="fas fa-trash" style="margin-right: 0.4rem;"></i>Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FINAL CTA ===== -->
+    <section class="final-cta" id="final-cta">
+        <div class="cta-decor cta-decor-1"></div>
+        <div class="cta-decor cta-decor-2"></div>
+        <div class="cta-content">
+            <span class="cta-tag"><i class="fas fa-sparkles" style="margin-right: 0.4rem;"></i>Get Started Today</span>
+            <h2>Design Smarter with AI</h2>
+            <p>From floor plans to photorealistic interiors — bring any space to life in seconds with Spatiora AI.</p>
+            <div class="cta-buttons">
+                <button class="cta-btn-white" onclick="navigateToTools()"><i class="fas fa-rocket"
+                        style="margin-right: 0.5rem;"></i>Start Free</button>
+                <button class="cta-btn-outline" onclick="navigateBilling()">View Plans <i class="fas fa-arrow-right"
+                        style="margin-left: 0.5rem;"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">Spatiora AI</div>
+                <p style="color: var(--text-lighter); font-size: 0.9rem;">Transforming spaces with artificial
+                    intelligence.</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Product</h3>
+                <ul>
+                    <li><a href="#" onclick="navigateToTools(); return false;">Floor Plan Generator</a></li>
+                    <li><a href="#" onclick="navigateToTools(); return false;">Interior Designer</a></li>
+                    <li><a href="#" onclick="navigateGallery(); return false;">Gallery</a></li>
+                    <li><a href="#" onclick="navigateLearnMore(); return false;">Learn More</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a href="#" onclick="navigateAbout(); return false;">About Us</a></li>
+                    <li><a href="#" onclick="navigateContact(); return false;">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Spatiora AI. All rights reserved. | <a href="#"
+                    style="color: inherit; text-decoration: none;">Privacy Policy</a> | <a href="#"
+                    style="color: inherit; text-decoration: none;">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <!-- ===== PROMPT BOT ===== -->
+    <button class="prompt-bot-button" onclick="togglePromptBot()" aria-label="Open prompt assistant">
+        <i class="fas fa-robot"></i>
+    </button>
+    <div class="prompt-bot-panel" id="prompt-bot-panel">
+        <div class="prompt-bot-header">
+            Prompt Assistant
+            <button onclick="togglePromptBot(false)"
+                style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text);">&times;</button>
+        </div>
+        <div class="prompt-bot-messages" id="prompt-bot-messages">
+            <div class="prompt-bot-msg bot">Tell me what you want to create, and I will structure a prompt for the
+                model.</div>
+        </div>
+        <div class="prompt-bot-input">
+            <input id="prompt-bot-input" type="text" placeholder="Describe your idea...">
+            <button onclick="sendPromptBot()">Send</button>
+        </div>
+    </div>
+
+    <!-- PRIVACY MODAL -->
+    <div id="privacy-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2>Privacy Policy</h2>
+            <p>We collect basic account information including email and username. Your design prompts may be stored to
+                improve AI performance. We do not sell user data. All information is securely stored.</p>
+            <p>By continuing, you agree to our data processing practices.</p>
+            <button onclick="agreePrivacy()" class="settings-btn primary" style="margin-top: 1rem;">I Agree</button>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
