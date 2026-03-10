@@ -1,0 +1,16 @@
+# Exclude large local/runtime directories
+env/
+__pycache__/
+models/
+
+# Exclude Python artifacts
+*.pyc
+*.pyo
+*.pyd
+
+# Exclude backend-only files
+backend.py
+test_backend_startup.py
+requirements.txt
+RUNPOD_DEPLOYMENT.md
+DEPLOYMENT_CHECKLIST.md
