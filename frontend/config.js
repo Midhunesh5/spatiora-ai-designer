@@ -1,5 +1,5 @@
 // Backend configuration for static frontend deployment.
-// Update this URL to your RunPod backend endpoint.
+// RunPod backend endpoint - updated March 2026
 window.BACKEND_URL = 'https://ge96nc5o7lkdtu-5000.proxy.runpod.net';
 
 // Local development fallback.
