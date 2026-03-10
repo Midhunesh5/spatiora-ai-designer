@@ -1,6 +1,6 @@
 // ===== CONSTANTS =====
 // Auto-detect backend URL: use environment variable or default to production RunPod URL
-const BACKEND_BASE = window.BACKEND_URL || 'https://u1gtgm7g6bklmm-5000.proxy.runpod.net';
+const BACKEND_BASE = window.BACKEND_URL || 'https://ge96nc5o7lkdtu-5000.proxy.runpod.net';
 const API_URL = `${BACKEND_BASE}/generate-stream`;
 
 // ===== STATE =====
