@@ -17,7 +17,7 @@ import threading
 
 # --- Configuration ---
 # Base model is loaded from Hugging Face Hub (auto-downloads and caches on first startup)
-BASE_MODEL_PATH = "models/sd-v1-5-fp16"
+BASE_MODEL_PATH = "runwayml/stable-diffusion-v1-5"
 # LoRA weight paths (local to RunPod container workspace)
 FLOORPLAN_LORA_PATH = "models/floor_plan_model/lora_weights/floor_pytorch_lora_weights.safetensors"
 INTERIOR_LORA_PATH = "models/interior_design/interior_gen_lora_weights/pytorch_lora_weights.safetensors"
